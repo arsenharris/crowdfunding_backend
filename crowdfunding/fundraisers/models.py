@@ -1,6 +1,5 @@
 from django.db import models
 
-# Create your models here.
 class Fundraiser(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
@@ -9,5 +8,12 @@ class Fundraiser(models.Model):
     is_open = models.BooleanField()
     date_created = models.DateTimeField(auto_now_add=True)
 
-  
-
+class Pledge(models.Model):
+    amount = models.IntegerField()
+    comment = models.CharField(max_length=200)
+    anonymous = models.BooleanField()
+    fundraiser = models.ForeignKey(
+        'Fundraiser', 
+        related_name='pledges',
+        on_delete=models.CASCADE # if fundraiser is deleted, it deletes the pledge as well.
+    )
