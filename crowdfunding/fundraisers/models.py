@@ -31,3 +31,10 @@ class Pledge(models.Model):
 
     )
 
+class Comment(models.Model):
+    text = models.TextField()
+    fundraiser = models.ForeignKey('Fundraiser', related_name='comments', on_delete=models.CASCADE) # if fundraiser is deleted, it deletes the comment as well.
+    date_created = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(get_user_model(),related_name='comments',on_delete=models.CASCADE) # if user is deleted, it deletes the comment as well.
+
+

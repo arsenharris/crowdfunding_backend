@@ -15,5 +15,7 @@ class FundraiserDetailSerializer(FundraiserSerializer):
     pledges = PledgeSerializer(many=True, read_only=True)
 
 
-
-    
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = apps.get_model('fundraisers.Comment')
+        fields = '__all__'
