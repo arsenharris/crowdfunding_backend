@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "fundraisers.apps.FundraisersConfig",
     "users.apps.UsersConfig",
     "rest_framework",
+    "rest_framework.authtoken",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -42,7 +43,16 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 ]
 
-# we added this after created user app
+#WE CREATED THIS AFTER USER APP NO 2
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication', 
+        ]
+}
+
+
+
+# we added this after created user app no 1
 AUTH_USER_MODEL = 'users.CustomUser'
 
 MIDDLEWARE = [

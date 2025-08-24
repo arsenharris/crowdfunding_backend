@@ -5,10 +5,14 @@ from rest_framework import status
 from django.http import Http404
 from .models import Fundraiser , Pledge, Comment
 from .serializers import CommentSerializer, FundraiserSerializer , PledgeSerializer , FundraiserDetailSerializer , CommentSerializer 
+from django.db.models import Q  # this is for sseach function
 
 class FundraiserList(APIView):
     def get(self, request):
         fundraisers = Fundraiser.objects.all()
+        search_query = request.query_params.get('search', None) # self.request is the HTTP request object that triggers the view. .query_param contains all GET query parameters and . last piece tries to get value of the search and if it doesnt exist return to none. 
+        if search_query:
+            fundraisers = fundraisers.filter(Q(title__icontains=search_query) | Q(description__icontains=search_query))
         serializer = FundraiserSerializer(fundraisers, many=True)
         return Response(serializer.data)
     
@@ -23,7 +27,7 @@ class FundraiserList(APIView):
         return Response(
             serializer.errors, 
             status=status.HTTP_400_BAD_REQUEST)
-    
+
 class FundraiserDetail(APIView):
     def get_object(self, pk):
         try:
@@ -46,7 +50,7 @@ class PledgeList(APIView):
     def post (self,request):
         serializer = PledgeSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(supporter=request.user)
             return Response(
                 serializer.data,
                 status=status.HTTP_201_CREATED
@@ -72,7 +76,7 @@ class CommentList(APIView):
     def post ( self,request):
         serializer = CommentSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(user = request.user)
             return Response(
                 serializer.data,
                 status = status.HTTP_201_CREATED
