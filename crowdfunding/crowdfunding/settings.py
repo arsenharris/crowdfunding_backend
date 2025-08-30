@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os # built-in python library
+import dj_database_url # this is a database url configuration
+from dotenv import load_dotenv
+load_dotenv('../.env')  # take environment variables from .env file
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,13 +24,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-h_#!tyl*71fbp8lqx@4217_b)@w)+$xuz!3+&4@b_n^57(hg(7"
+#we changed this to os.ev....
+SECRET_KEY = os.environ.get(
+    'DJANGO_SECRET_KEY',
+    "django-insecure-h_#!tyl*71fbp8lqx@4217_b)@w)+$xuz!3+&4@b_n^57(hg(7"
+    )
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get(
+    'DJANGO_DEBUG'
+) != 'False'
 
-ALLOWED_HOSTS = []
-
+#we added these* and CORS
+ALLOWED_HOSTS = ['*'] #any host like blah.com
+CORS_ORIGIN_ALLOW_ALL =True
 
 # Application definition
 
@@ -35,6 +46,7 @@ INSTALLED_APPS = [
     "users.apps.UsersConfig",
     "rest_framework",
     "rest_framework.authtoken",
+    "corsheaders",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -45,9 +57,8 @@ INSTALLED_APPS = [
 
 #WE CREATED THIS AFTER USER APP NO 2
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication', 
-        ]
+    'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework.authentication.TokenAuthentication',],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination','PAGE_SIZE': 10,
 }
 
 
@@ -57,6 +68,8 @@ AUTH_USER_MODEL = 'users.CustomUser'
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    'whitenoise.middleware.WhiteNoiseMiddleware', # we added this one 
+    'corsheaders.middleware.CorsMiddleware', # we added this one
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -96,7 +109,9 @@ DATABASES = {
     }
 }
 
-
+#we added the below 2 lines
+db_from_env =dj_database_url.config(conn_max_age=500)
+DATABASES["default"].update(db_from_env)
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -131,7 +146,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/" # we added / infront of static.
+STATIC_ROOT= os.path.join(BASE_DIR, "staticfiles")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

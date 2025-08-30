@@ -1,2 +1,8 @@
-Django==5.1
-djangorestframework==3.15.2
+Django==5.1 # django version 
+djangorestframework==3.15.2 # rest framework version
+django-cors-headers==4.5.0 # security related feature - headers are metadata CORS- cross origin resource sharing
+dj-database-url==2.2.0 # database url configuration
+gunicorn==23.0.0 # WSGI HTTP server for UNIX
+psycopg2-binary==2.9.10 # PostgreSQL database adapter for Python
+python-dotenv==1.0.1 # environment variable management
+whitenoise==6.7.0 # static file serving

@@ -3,19 +3,23 @@ from django.contrib.auth import get_user_model
 from django.db.models import Sum
 
 class Fundraiser(models.Model):
-    
+    GENRE_TYPES_CHOICES = [
+        ('drama', 'Drama'),
+        ('poem', 'Poem'),
+        ('selfhelp', 'Self Help'),
+        ('romantic', 'Romantic'),
+        ('crime', 'Crime'),
+    ]
     title = models.CharField(max_length=200)
+    genre_type=models.CharField(max_length=20, choices=GENRE_TYPES_CHOICES, default='drama')
     description = models.TextField()
     goal=models.IntegerField()
     image = models.URLField()
     is_open = models.BooleanField()
     date_created = models.DateTimeField(auto_now_add=True)
-    owner = models.ForeignKey(
-        get_user_model(),
-        related_name='owned_fundraisers',
-        on_delete=models.CASCADE 
-    )
-
+    start_date =models.DateTimeField(null=True, blank=True)
+    end_date = models.DateTimeField(null=True, blank=True)
+    owner = models.ForeignKey(get_user_model(),related_name='owned_fundraisers',on_delete=models.CASCADE )
 
     def progress(self):
         total_donations = sum(s.amount for s in self.pledges.all())
@@ -28,16 +32,8 @@ class Pledge(models.Model):
     amount = models.IntegerField()
     comment = models.CharField(max_length=200)
     anonymous = models.BooleanField()
-    fundraiser = models.ForeignKey(
-        'Fundraiser', 
-        related_name='pledges',
-        on_delete=models.CASCADE # if fundraiser is deleted, it deletes the pledge as well.
-    )
-
-    supporter = models.ForeignKey(
-        get_user_model(),
-        related_name='pledges',
-        on_delete=models.CASCADE # if fundraiser is deleted, it deletes the pledge as well.  
+    fundraiser = models.ForeignKey('Fundraiser', related_name='pledges',on_delete=models.CASCADE) # if fundraiser is deleted, it deletes the pledge as well.
+    supporter = models.ForeignKey(get_user_model(),related_name='pledges',on_delete=models.CASCADE # if fundraiser is deleted, it deletes the pledge as well.  
 
     )
 class Comment(models.Model):
