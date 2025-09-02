@@ -9,6 +9,9 @@ from django.db.models import Q  # this is for search function
 from .permissions import IsOwnerOrReadOnly
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.pagination import LimitOffsetPagination
+from django.urls import reverse
+from django.conf import settings
+
 
 class FundraiserList(APIView):
     permission_classes = [
@@ -72,11 +75,14 @@ class FundraiserDetail(APIView):
                 serializer.errors,
                 status=status.HTTP_400_BAD_REQUEST
             )
+    def delete(self, request, pk):
+        fundraiser = self.get_object(pk)
+        fundraiser.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 class PledgeList(APIView):
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly,
-
     ]
         
 
@@ -120,6 +126,7 @@ class PledgeList(APIView):
             serializer.errors,
             status=status.HTTP_400_BAD_REQUEST
         )
+
 
 class CommentList(APIView):
     permission_classes = [
@@ -185,4 +192,8 @@ class CommentDetail(APIView):
             status=status.HTTP_400_BAD_REQUEST
         )
 
+    def delete(self, request, pk):
+        comment = self.get_object(pk)
+        comment.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 

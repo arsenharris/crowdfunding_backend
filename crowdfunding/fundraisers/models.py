@@ -29,6 +29,12 @@ class Fundraiser(models.Model):
         return (progress_percentage, 100)
 
 class Pledge(models.Model):
+    TIER_CHOICES = [
+        (1, 'Tier 1:Baisc'),
+        (2, 'Tier 2:Hard Copy'),
+        (3, 'Tier 3:Signed Copy'),
+    ]
+    tier_level = models.IntegerField(choices=TIER_CHOICES, default=1)
     amount = models.IntegerField()
     comment = models.CharField(max_length=200)
     anonymous = models.BooleanField()

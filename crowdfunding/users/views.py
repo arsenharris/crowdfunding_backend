@@ -25,6 +25,13 @@ class CustomUserList(APIView):
             return Response(
                 serializer.errors,
                 status=status.HTTP_400_BAD_REQUEST) 
+    def delete (self, request, pk):
+        user = self.get_object(pk)
+        if request.user !=user:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        user.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class CustomUserDetail(APIView):
     def get_object(self,pk):

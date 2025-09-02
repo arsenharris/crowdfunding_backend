@@ -7,5 +7,4 @@ urlpatterns = [
     path('fundraisers/search/', views.FundraiserList.as_view()),
     path('pledges/', views.PledgeList.as_view()),
     path('fundraisers/<int:pk>/comments/', views.CommentList.as_view()),
-
 ]   
