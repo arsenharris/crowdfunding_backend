@@ -203,6 +203,7 @@ Lets check the get request again now.
 ![GET](screenshots/deployed/fundraiser/GET3.png)
 lets jump to the hacker account.
 Get for hacker: we see all the fundraisers 
+Hacker
 ![GET ](screenshots/deployed/fundraiser/hackerGET.png)
 ![GET ](screenshots/deployed/fundraiser/hackerGET2.png)
 Post for hacker:
@@ -222,56 +223,34 @@ Lets see individual fudnraiser id:
 ## Pledges
 Get for user:We see pledges here
 ![GET ](screenshots/deployed/pledge/GET.png)
-
-
 All these were created before pledging against your own fundraiser rule. 
 ![POST ](screenshots/deployed/pledge/POST1.png)
 as the above is my own pledge, i couldnt raise pledge
 ![POST ](screenshots/deployed/pledge/POST2.png)
 i pledged for other users fundraiser
 ![POST ](screenshots/deployed/pledge/POST3.png)
-
-
 i tried to pledge agaisnt fundraiser doesnt exist.
 I can update comment and amount. this will be fixed in later stages. 
 ![PUT ](screenshots/deployed/pledge/PUT.png)
-
-
 Once you pledge/ donate, you cannot take it back. thats why this is not working
 ![DELETE ](screenshots/deployed/pledge/DELETE.png)
-
-
+Hacker
 ![GET ](screenshots/deployed/pledge/hackerGET.png)
-
-
-The last pledge is id is  16
 ![GET ](screenshots/lodeployedcal/pledge/hackerGET2.png)
-
-
 All these were created before pledging against your own fundraiser rule. 
 ![POST ](screenshots/deployed/pledge/hackerPOST1.png)
-
-
 as the above is my own pledge, i couldnt raise pledge
 ![POST ](screenshots/deployed/pledge/hackerPOST2.png)
-
-
 i pledged for other users fundraiser
 ![POST ](screenshots/deployed/pledge/hackerPOST3.png)
-
-
 i tried to pledge agaisnt fundraiser doesnt exist.
 I can update comment and amount. this will be fixed in later stages. 
 ![PUT ](screenshots/deployed/pledge/hackerPUT.png)
-
-
 Once you pledge/ donate, you cannot take it back. thats why this is not working
 ![DELETE ](screenshots/deployed/pledge/hackerDELETE.png)
 
 ## Comment
 ![GET ](screenshots/deployed/comment/GET.png)
-
-
 Any user can comment on fundraiser.
 ![POST ](screenshots/deployed/comment/POST.png)
 
