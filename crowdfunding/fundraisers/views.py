@@ -89,7 +89,6 @@ class PledgeList(APIView):
     def get_object(self, pk):
         try:
             pledges = Pledge.objects.get(pk=pk)
-            self.check_object_permissions(self.request, pledges)
             return pledges
         except Pledge.DoesNotExist:
             raise Http404
@@ -102,7 +101,24 @@ class PledgeList(APIView):
     def post (self,request):
         serializer = PledgeSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(supporter=request.user)
+            fundraiser_id = request.data.get('fundraiser')
+
+            ###make sure fundraiser exists
+            try:
+                fundraiser = Fundraiser.objects.get(id=fundraiser_id)
+            except Fundraiser.DoesNotExist:
+                return Response(
+                    {'error': 'Fundraiser does not exist.'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            ###prevent pledging to own fundraiser
+            if fundraiser.owner == request.user:
+                return Response(
+                    {'error': 'You cannot pledge to your own fundraiser.'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            serializer.save(supporter=request.user, fundraiser=fundraiser)
             return Response(
                 serializer.data,
                 status=status.HTTP_201_CREATED
@@ -147,10 +163,10 @@ class CommentList(APIView):
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data)
     
-    def post ( self,request):
+    def post ( self,request,pk):
         serializer = CommentSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(user = request.user)
+            serializer.save(user = request.user, fundraiser_id=pk)
             return Response(
                 serializer.data,
                 status = status.HTTP_201_CREATED

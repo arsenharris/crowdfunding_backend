@@ -2,8 +2,6 @@
 
 Arsen ILHAN
 
-## Planning:
-
 ### Concept/Name
 
 Inkvestor empowers aspiring authors to bring their stories to life.
@@ -58,9 +56,7 @@ It can be helpful to keep the markdown preview open in VS Code so that you can s
 
 different endpoints ( like /fundraisers page pledges, profile etc )
 
-![](./apispec.drawio.svg)
 
-![](./database.drawio.svg)
 
 | URL                       | HTTP Method | Purpose                                           | Request Body                | Success Response Code | Authentication/Authorisation        |
 | ------------------------- | ----------- | ------------------------------------------------- | --------------------------- | --------------------- | ------------------------------------ |
@@ -86,7 +82,9 @@ different endpoints ( like /fundraisers page pledges, profile etc )
 
 ### DB Schema
 
-![]( {{ ./relative/path/to/your/schema/image.png }} )
+![](./apispec.drawio.svg)
+
+![](./database.drawio.svg)
 
 ### Testing Markdown all in one 
 ``` python
@@ -98,3 +96,182 @@ print ("Hello World")
 "My new line testing here" 
 You need to start with three ``` and finish with three ```
 ```
+
+# LOCALHOST SCREENSHOT
+
+Lets have a look at the accounts first. 
+![hacker ](screenshots/local/user/local-hacker.png)
+![user ](screenshots/local/user/local-user.png)
+
+## Fundraiser
+Get for user:We see fundraiser ide 1,2,6...
+![GET ](screenshots/local/fundraiser/GET.png)
+The last Fundraiser id is 24. I will delete 23th one later, pay attention to this. 
+![GET ](screenshots/local/fundraiser/GET2.png)
+Post for user: as you see above, last one was 24. you see 25th fundraiser here.
+![POST ](screenshots/local/fundraiser/POST.png)
+Put for user:lets update this 25th fundriaser details
+![PUT](screenshots/local/fundraiser/PUT.png)
+this fundraiser is not my own fundraiser, so. icannot update it
+![PUT](screenshots/local/fundraiser/PUT2.png)
+Delete for user:
+![DELETE](screenshots/local/fundraiser/DELETE.png)
+lets try to delete fundraiser 24
+![DELETE](screenshots/local/fundraiser/DELETE2.png)
+It didnt allow us to delete because it is created by other user.
+Lets check the get request again now.
+![GET](screenshots/local/fundraiser/GET3.png)
+As you see above, 23th is deleted and 24th stayed and the last one shows my updated details too.
+lets jump to the hacker account.
+Get for hacker: we see all the fundraisers 
+![GET ](screenshots/local/fundraiser/hackerGET.png)
+we see the last fundraiser 24th and 25th
+![GET ](screenshots/local/fundraiser/hackerGET2.png)
+Post for hacker:
+![POST](screenshots/local/fundraiser/hackerPOST.png)
+Put for hacker: i can do it, because it is hackers fundraiser
+![PUT](screenshots/local/fundraiser/hackerPUT.png)
+this fundraiser is not my own fundraiser, so. icannot update it
+![PUT ](screenshots/local/fundraiser/hackerPUT2.png)
+Delete for hacker:i could delete 26th as hacker created it
+![DELETE ](screenshots/local/fundraiser/hackerDELETE.png)
+this is created by other user, i cannot delete it.
+![DELETE ](screenshots/local/fundraiser/hackerDELETE2.png)
+I won't see the 26th as i deleted it.
+Lets see individual fudnraiser id:
+![GET ](screenshots/local/fundraiser/GETID1.png)
+![GET ](screenshots/local/fundraiser/GETID24.png)
+
+## Pledges
+Get for user:We see pledges from  1,2,3..
+![GET ](screenshots/local/pledge/GET.png)
+The last pledge is id is  16
+![GET ](screenshots/local/pledge/GET2.png)
+All these were created before pledging against your own fundraiser rule. 
+![POST ](screenshots/local/pledge/POST1.png)
+as the above is my own pledge, i couldnt raise pledge
+![POST ](screenshots/local/pledge/POST2.png)
+i pledged for other users fundraiser
+![POST ](screenshots/local/pledge/POST3.png)
+i tried to pledge agaisnt fundraiser doesnt exist.
+I can update comment and amount. this will be fixed in later stages. 
+![PUT ](screenshots/local/pledge/PUT.png)
+Once you pledge/ donate, you cannot take it back. thats why this is not working
+![DELETE ](screenshots/local/pledge/DELETE.png)
+![GET ](screenshots/local/pledge/hackerGET.png)
+The last pledge is id is  16
+![GET ](screenshots/local/pledge/hackerGET2.png)
+All these were created before pledging against your own fundraiser rule. 
+![POST ](screenshots/local/pledge/hackerPOST1.png)
+as the above is my own pledge, i couldnt raise pledge
+![POST ](screenshots/local/pledge/hackerPOST2.png)
+i pledged for other users fundraiser
+![POST ](screenshots/local/pledge/hackerPOST3.png)
+i tried to pledge agaisnt fundraiser doesnt exist.
+I can update comment and amount. this will be fixed in later stages. 
+![PUT ](screenshots/local/pledge/hackerPUT.png)
+Once you pledge/ donate, you cannot take it back. thats why this is not working
+![DELETE ](screenshots/local/pledge/hackerDELETE.png)
+
+## Comment
+![GET ](screenshots/local/comment/GET.png)
+Any user can comment on fundraiser.
+![POST ](screenshots/local/comment/POST.png)
+
+
+# DEPLOYMENT SCREENSHOT
+Lets have a look at the accounts first. 
+![hacker ](screenshots/deployed/user/deployed-hacker.png)
+![user ](screenshots/deployed/user/deployed-user.png)
+## Fundraiser
+Get for user:We see fundraiser ide 1,3,5...
+![GET ](screenshots/deployed/fundraiser/GET.png)
+The last Fundraiser id is 7. I will delete this one later.
+![GET ](screenshots/deployed/fundraiser/GET2.png)
+Post for user: as you see above 9th one is newly added
+![POST ](screenshots/deployed/fundraiser/POST.png)
+Put for user:lets update this 9th fundriaser details
+![PUT](screenshots/deployed/fundraiser/PUT.png)
+this fundraiser is not my own fundraiser, so. icannot update it
+![PUT](screenshots/deployed/fundraiser/PUT2.png)
+Delete for user:
+![DELETE](screenshots/deployed/fundraiser/DELETE.png)
+lets try to delete fundraiser 24
+![DELETE](screenshots/deployed/fundraiser/DELETE2.png)
+It didnt allow us to delete because it is created by other user.
+Lets check the get request again now.
+![GET](screenshots/deployed/fundraiser/GET3.png)
+lets jump to the hacker account.
+Get for hacker: we see all the fundraisers 
+![GET ](screenshots/deployed/fundraiser/hackerGET.png)
+![GET ](screenshots/deployed/fundraiser/hackerGET2.png)
+Post for hacker:
+![POST](screenshots/deployed/fundraiser/hackerPOST.png)
+Put for hacker: i can do it, because it is hackers fundraiser
+![PUT](screenshots/deployed/fundraiser/hackerPUT.png)
+this fundraiser is not my own fundraiser, so. icannot update it
+![PUT ](screenshots/deployed/fundraiser/hackerPUT2.png)
+Delete for hacker:i could delete 26th as hacker created it
+![DELETE ](screenshots/deployed/fundraiser/hackerDELETE.png)
+this is created by other user, i cannot delete it.
+![DELETE ](screenshots/deployed/fundraiser/hackerDELETE2.png)
+Lets see individual fudnraiser id:
+![GET ](screenshots/deployed/fundraiser/GETID3.png)
+![GET ](screenshots/deployed/fundraiser/GETID11.png)
+
+## Pledges
+Get for user:We see pledges here
+![GET ](screenshots/deployed/pledge/GET.png)
+
+
+All these were created before pledging against your own fundraiser rule. 
+![POST ](screenshots/deployed/pledge/POST1.png)
+as the above is my own pledge, i couldnt raise pledge
+![POST ](screenshots/deployed/pledge/POST2.png)
+i pledged for other users fundraiser
+![POST ](screenshots/deployed/pledge/POST3.png)
+
+
+i tried to pledge agaisnt fundraiser doesnt exist.
+I can update comment and amount. this will be fixed in later stages. 
+![PUT ](screenshots/deployed/pledge/PUT.png)
+
+
+Once you pledge/ donate, you cannot take it back. thats why this is not working
+![DELETE ](screenshots/deployed/pledge/DELETE.png)
+
+
+![GET ](screenshots/deployed/pledge/hackerGET.png)
+
+
+The last pledge is id is  16
+![GET ](screenshots/lodeployedcal/pledge/hackerGET2.png)
+
+
+All these were created before pledging against your own fundraiser rule. 
+![POST ](screenshots/deployed/pledge/hackerPOST1.png)
+
+
+as the above is my own pledge, i couldnt raise pledge
+![POST ](screenshots/deployed/pledge/hackerPOST2.png)
+
+
+i pledged for other users fundraiser
+![POST ](screenshots/deployed/pledge/hackerPOST3.png)
+
+
+i tried to pledge agaisnt fundraiser doesnt exist.
+I can update comment and amount. this will be fixed in later stages. 
+![PUT ](screenshots/deployed/pledge/hackerPUT.png)
+
+
+Once you pledge/ donate, you cannot take it back. thats why this is not working
+![DELETE ](screenshots/deployed/pledge/hackerDELETE.png)
+
+## Comment
+![GET ](screenshots/deployed/comment/GET.png)
+
+
+Any user can comment on fundraiser.
+![POST ](screenshots/deployed/comment/POST.png)
+
