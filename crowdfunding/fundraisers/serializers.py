@@ -1,14 +1,23 @@
 from rest_framework import serializers
 from django.apps import apps
+from django.db.models import Sum
 
 class FundraiserSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source= 'owner.id')
-    progress = serializers.ReadOnlyField()    
+    progress = serializers.SerializerMethodField()    
+    likes_count = serializers.SerializerMethodField()
+
     class Meta:
         model = apps.get_model ('fundraisers.Fundraiser')
         fields = '__all__'
-        def get_progress(self, obj):
-            return obj.progress()
+    def get_progress(self, obj):
+        total_pledged = sum([p.amount for p in obj.pledges.all()])
+        if obj.goal:
+            return f"{round((total_pledged / obj.goal) * 100, 2)}%"
+        return 0
+    def get_likes_count(self, obj):
+        return obj.likes.count()
+    
 
 class PledgeSerializer(serializers.ModelSerializer):
     supporter = serializers.ReadOnlyField (source ='supporter.id')

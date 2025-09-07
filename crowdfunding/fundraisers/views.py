@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, permissions
+from rest_framework import status, permissions, viewsets, filters
 from django.http import Http404
-from .models import Fundraiser , Pledge, Comment
+from django_filters.rest_framework import DjangoFilterBackend
+from .models import Fundraiser , Pledge, Comment, Like
 from .serializers import FundraiserSerializer , PledgeSerializer , FundraiserDetailSerializer , CommentSerializer 
 from django.db.models import Q  # this is for search function
 from .permissions import IsOwnerOrReadOnly
@@ -11,6 +12,11 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.pagination import LimitOffsetPagination
 from django.urls import reverse
 from django.conf import settings
+from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
+from django.shortcuts import get_object_or_404
+
+
 
 
 class FundraiserList(APIView):
@@ -79,6 +85,54 @@ class FundraiserDetail(APIView):
         fundraiser = self.get_object(pk)
         fundraiser.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class FeaturedFundraiserList(APIView):
+    def get(self, request):
+        fundraisers = Fundraiser.objects.all()
+        fundraisers = sorted( ###sorted is built-in function that sorts any iterable
+            fundraisers, ### queryset from above
+            key=lambda f: sum([p.amount for p in f.pledges.all()]) / f.goal if f.goal else 0, ### key is a function that serves as a basis for sorting. here we use a lambda function that calculates the progress of each fundraiser by summing the amounts of all its pledges and dividing by its goal. if the goal is None or 0, it returns 0 to avoid division by zero.
+            reverse=True  # highest progress first
+        )
+
+        # Take only top 5
+        fundraisers = fundraisers[:3]
+
+        serializer = FundraiserSerializer(fundraisers, many=True)
+        return Response(serializer.data)
+    
+class FundraiserViewSet(viewsets.ModelViewSet):
+    queryset = Fundraiser.objects.all()
+    serializer_class = FundraiserSerializer
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly,
+        IsOwnerOrReadOnly
+    ]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['is_open', 'owner__id']  # allows filtering by is_open and owner id
+    search_fields = ['title', 'description']  # allows searching in title and description
+    ordering_fields = ['goal', 'created_at']  # allows ordering by goal and created_at
+    pagination_class = LimitOffsetPagination  # Use limit-offset pagination
+
+class FundraiserLikeList(APIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get(self, request, pk):
+        """Return the fundraiser details including likes count"""
+        fundraiser = get_object_or_404(Fundraiser, pk=pk)
+        serializer = FundraiserSerializer(fundraiser)  # pass the fundraiser object, not likes
+        return Response(serializer.data)
+
+    def post(self, request, pk):
+        """Toggle like/unlike for a fundraiser"""
+        fundraiser = get_object_or_404(Fundraiser, pk=pk)
+        like, created = Like.objects.get_or_create(user=request.user, fundraiser=fundraiser)
+
+        if not created:
+            like.delete()
+            return Response({"status": "unliked"})
+        return Response({"status": "liked"})
+
 
 class PledgeList(APIView):
     permission_classes = [
@@ -212,4 +266,3 @@ class CommentDetail(APIView):
         comment = self.get_object(pk)
         comment.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-

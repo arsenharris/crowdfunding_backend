@@ -4,11 +4,36 @@ from django.db.models import Sum
 
 class Fundraiser(models.Model):
     GENRE_TYPES_CHOICES = [
-        ('drama', 'Drama'),
-        ('poem', 'Poem'),
-        ('selfhelp', 'Self Help'),
-        ('romantic', 'Romantic'),
-        ('crime', 'Crime'),
+    ### Fiction
+    ('drama', 'Drama'),
+    ('romance', 'Romance'),
+    ('crime', 'Crime'),
+    ('thriller', 'Thriller'),
+    ('fantasy', 'Fantasy'),
+    ('scifi', 'Sci-Fi'),
+    ('youngadult', 'Young Adult'),
+    ('children', 'Children'),
+
+    #### Non-fiction
+    ('selfhelp', 'Self-Help'),
+    ('biography', 'Biography'),
+    ('history', 'History'),
+    ('knowledge', 'Knowledge'),
+    ('poem', 'Poem'),
+
+    #### Poetry
+    ('classic', 'Classic'),
+    ('modern', 'Modern'),
+    ('short', 'Short'),
+
+    #### Kids
+    ('picture', 'Picture'),
+    ('middle', 'Middle'),
+    ('ya', 'Young Adult'),
+
+    #### Other
+    ('misc', 'Misc'),
+
     ]
     title = models.CharField(max_length=200)
     genre_type=models.CharField(max_length=20, choices=GENRE_TYPES_CHOICES, default='drama')
@@ -48,6 +73,8 @@ class Comment(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(get_user_model(),related_name='comments',on_delete=models.CASCADE) # if user is deleted, it deletes the comment as well.
 
-
-
-
+class Like(models.Model):
+    user = models.ForeignKey(get_user_model(), related_name='likes', on_delete=models.CASCADE)
+    fundraiser = models.ForeignKey('Fundraiser', related_name='likes', on_delete=models.CASCADE)
+    class Meta:
+        unique_together = ('user', 'fundraiser')  # ensures a user can like a fundraiser only once

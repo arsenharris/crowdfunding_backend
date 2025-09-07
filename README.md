@@ -76,10 +76,6 @@ different endpoints ( like /fundraisers page pledges, profile etc )
 | /auth/logout              | POST        | Log out user and invalidate session/token         | N/A                         | 204                   | Logged-in user                       |
 
 
-
-
-
-
 ### DB Schema
 
 ![](./apispec.drawio.svg)
@@ -96,6 +92,37 @@ print ("Hello World")
 "My new line testing here" 
 You need to start with three ``` and finish with three ```
 ```
+## Some extra features
+
+#### Progress bar / pledge tiers
+you see all pledges for fundraiser27. 
+$100,25 and 50 pledges
+![progress ](screenshots/local/features/progress1.png)
+
+Goal is $1000 and $175 donated.You can also see different pledge tiers.
+![progress ](screenshots/local/features/progress2.png)
+
+#### Search
+word game and harry are searched ad results are listed
+![search ](screenshots/local/features/search1.png)
+![search ](screenshots/local/features/search2.png)
+
+#### Featured
+top 3 most pledges fundraiser featured
+![featured ](screenshots/local/features/featured.png)
+
+#### Likes
+status is liked
+![like ](screenshots/local/features/like1.png)
+
+if button is cliecked again, it is unliked
+![like ](screenshots/local/features/like2.png)
+
+we can see the like here
+![like ](screenshots/local/features/like3.png)
+and here
+![like ](screenshots/local/features/like4.png)
+
 
 # LOCALHOST SCREENSHOT
 
@@ -253,4 +280,13 @@ Once you pledge/ donate, you cannot take it back. thats why this is not working
 ![GET ](screenshots/deployed/comment/GET.png)
 Any user can comment on fundraiser.
 ![POST ](screenshots/deployed/comment/POST.png)
+
+
+
+# Some links from heroku
+
+https://inkvestor-40ee966b1650.herokuapp.com/fundraisers/
+
+https://inkvestor-40ee966b1650.herokuapp.com/fundraisers/5/
+
 
