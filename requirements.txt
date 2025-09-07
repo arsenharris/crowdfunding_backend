@@ -6,4 +6,3 @@ gunicorn==23.0.0 # WSGI HTTP server for UNIX
 psycopg2-binary==2.9.10 # PostgreSQL database adapter for Python
 python-dotenv==1.0.1 # environment variable management
 whitenoise==6.7.0 # static file serving
-pip freeze > requirements.txt
