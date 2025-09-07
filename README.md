@@ -58,27 +58,32 @@ different endpoints ( like /fundraisers page pledges, profile etc )
 
 
 
-| URL                       | HTTP Method | Purpose                                           | Request Body                | Success Response Code | Authentication/Authorisation        |
-| ------------------------- | ----------- | ------------------------------------------------- | --------------------------- | --------------------- | ------------------------------------ |
-| /fundraisers              | GET         | Fetch all fundraisers                             | N/A                         | 200                   | None                                 |
-| /fundraisers              | POST        | Create a new fundraiser                           | JSON Payload                | 201                   | Any logged-in user                   |
-| /fundraisers/{id}         | GET         | Fetch details of a specific fundraiser            | N/A                         | 200                   | None                                 |
-| /fundraisers/{id}         | PUT         | Update an existing fundraiser                     | JSON Payload                | 200                   | Fundraiser owner only                |
-| /fundraisers/{id}         | DELETE      | Delete a fundraiser                               | N/A                         | 204                   | Fundraiser owner only                |
-| /fundraisers/{id}/pledges | GET         | Fetch all pledges for a specific fundraiser       | N/A                         | 200                   | Fundraiser owner or admin            |
-| /fundraisers/{id}/pledges | POST        | Create a pledge for a fundraiser                  | JSON {Payload} {"fundraiser_id"}  | 201             | Any logged-in user                   |
-| /fundraisers/{id}/pledges | DELETE      | Delete pledge                                     | NA                          | 204                   | Fundraiser owner or admin            |
-| /fundraisers/{id}/pledges | PUT         | Update pledge                                     | JSON Paylod                 | 200                   | Fundraiser owner            |
-| /profile                  | GET         | Fetch logged-in user profile details              | N/A                         | 200                   | Logged-in user                       |
-| /profile                  | PUT         | Update logged-in user profile                     | JSON Payload                | 200                   | Logged-in user                       |
-| /auth/register            | POST        | Register a new user                               | JSON Payload                | 201                   | None                                 |
-| /auth/login               | POST        | Log in and retrieve authentication token          | JSON Payload                | 200                   | None                                 |
-| /auth/logout              | POST        | Log out user and invalidate session/token         | N/A                         | 204                   | Logged-in user                       |
+| URL                        | HTTP Method | Purpose                                     | Request Body                     | Success Response Code | Authentication/Authorisation |
+| -------------------------- | ----------- | ------------------------------------------- | -------------------------------- | --------------------- | ---------------------------- |
+| /fundraisers               | GET         | Fetch all fundraisers                       | N/A                              | 200                   | None                         |
+| /fundraisers               | POST        | Create a new fundraiser                     | JSON Payload                     | 201                   | Any logged-in user           |
+| /fundraisers/{id}          | GET         | Fetch details of a specific fundraiser      | N/A                              | 200                   | None                         |
+| /fundraisers/{id}          | PUT         | Update an existing fundraiser               | JSON Payload                     | 200                   | Fundraiser owner only        |
+| /fundraisers/{id}          | DELETE      | Delete a fundraiser                         | N/A                              | 204                   | Fundraiser owner only        |
+| /fundraisers/featured      | GET         | Get featured fudnraisres                    | N/A                              | 204                   | admin only                   |
+| /fundraisers/{id}/likes    | GET         | Fetch liked fundraiser                      | N/A                              | 204                   | Other users                  |
+| /fundraisers/{id}/likes    | POST        | Likes fundraiser                            | N/A                              | 204                   | Other users                  |
+| /fundraisers/{id}/pledges  | GET         | Fetch all pledges for a specific fundraiser | N/A                              | 200                   | Fundraiser owner or admin    |
+| /fundraisers/{id}/pledges  | POST        | Create a pledge for a fundraiser            | JSON {Payload} {"fundraiser_id"} | 201                   | Any logged-in user           |
+| /fundraisers/{id}/pledges  | PUT         | Update pledge                               | JSON Paylod                      | 200                   | Fundraiser owner             |
+| /fundraisers/{id}/comments | GET         | gets comment from a fundraiser              | N/A                              | 204                   | Fundraiser owner only        |
+| /fundraisers/{id}/comments | post        | Creates comment on a fundraiser             | N/A                              | 204                   | Fundraiser owner only        |
+| /fundraisers/{id}/comments | PUT         | Update comments on a fundraiser             | N/A                              | 204                   | Fundraiser owner only        |
+| /fundraisers/{id}/comments | DELETE      | Delete a comment on a fundraiser            | N/A                              | 204                   | Fundraiser owner only        |
+| /fundraisers/search        | GET         | Search                                      | N/A                              | 204                   | Logged-in users              |
+| /profile                   | GET         | Fetch logged-in user profile details        | N/A                              | 200                   | Logged-in user               |
+| /profile                   | PUT         | Update logged-in user profile               | JSON Payload                     | 200                   | Logged-in user               |
+| /auth/register             | POST        | Register a new user                         | JSON Payload                     | 201                   | None                         |
+| /auth/login                | POST        | Log in and retrieve authentication token    | JSON Payload                     | 200                   | None                         |
+| /auth/logout               | POST        | Log out user and invalidate session/token   | N/A                              | 204                   | Logged-in user               |
 
 
 ### DB Schema
-
-![](./apispec.drawio.svg)
 
 ![](./database.drawio.svg)
 
