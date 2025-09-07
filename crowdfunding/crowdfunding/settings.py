@@ -158,3 +158,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 ###I added this
 FRONTEND_URL = 'http://localhost:3000'  # Update with your actual frontend URL
+
+
+
+###i added this to fic heroku deployment
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
