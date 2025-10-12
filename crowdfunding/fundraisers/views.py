@@ -15,7 +15,17 @@ from django.conf import settings
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
 
+def api_root(request):
+    return JsonResponse({
+        "message": "Welcome to Inkvestor API",
+        "endpoints": [
+            "/fundraisers/",
+            "/pledges/",
+            "/fundraisers/<id>/comments/",
+        ]
+    })
 
 
 
