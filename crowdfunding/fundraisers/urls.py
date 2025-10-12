@@ -1,6 +1,17 @@
+
 from django.urls import path
 from . import views
+from django.http import JsonResponse
 
+def api_root(request):
+    return JsonResponse({
+        "message": "Welcome to Inkvestor API",
+        "endpoints": [
+            "/fundraisers/",
+            "/pledges/",
+            "/fundraisers/<id>/comments/",
+        ]
+    })
 urlpatterns = [
     path("", views.api_root(), ),
     path('fundraisers/', views.FundraiserList.as_view()),
