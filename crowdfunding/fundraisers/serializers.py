@@ -3,7 +3,7 @@ from django.apps import apps
 from django.db.models import Sum
 
 class FundraiserSerializer(serializers.ModelSerializer):
-    owner = serializers.ReadOnlyField(source= 'owner.id')
+    owner = serializers.ReadOnlyField(source= 'owner.username')
     progress = serializers.SerializerMethodField()    
     likes_count = serializers.SerializerMethodField()
 
