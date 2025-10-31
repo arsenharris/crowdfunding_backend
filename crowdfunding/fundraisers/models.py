@@ -29,7 +29,6 @@ class Fundraiser(models.Model):
     #### Kids
     ('picture', 'Picture'),
     ('middle', 'Middle'),
-    ('ya', 'Young Adult'),
 
     #### Other
     ('misc', 'Misc'),
