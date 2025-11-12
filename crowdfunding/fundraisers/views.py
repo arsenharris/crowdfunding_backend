@@ -17,6 +17,8 @@ from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 
+from rest_framework.parsers import MultiPartParser, FormParser
+
 def api_root(request):
     return JsonResponse({
         "message": "Welcome to Inkvestor API",
@@ -33,6 +35,7 @@ class FundraiserList(APIView):
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly
         ]
+    parser_classes = [MultiPartParser, FormParser]
     
 
     def get(self, request):
@@ -63,6 +66,9 @@ class FundraiserDetail(APIView):
         permissions.IsAuthenticatedOrReadOnly,
         IsOwnerOrReadOnly
     ]
+
+    parser_classes = [MultiPartParser, FormParser]
+
     def get_object(self, pk):
         try:
             fundraiser = Fundraiser.objects.get(pk=pk)
@@ -118,6 +124,8 @@ class FundraiserViewSet(viewsets.ModelViewSet):
         permissions.IsAuthenticatedOrReadOnly,
         IsOwnerOrReadOnly
     ]
+    parser_classes = [MultiPartParser, FormParser]
+    
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['is_open', 'owner__id']  # allows filtering by is_open and owner id
     search_fields = ['title', 'description']  # allows searching in title and description

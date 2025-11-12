@@ -6,6 +6,7 @@ class FundraiserSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source= 'owner.username')
     progress = serializers.SerializerMethodField()    
     likes_count = serializers.SerializerMethodField()
+    image = serializers.ImageField(use_url=True, allow_null=True, required=False)
 
     class Meta:
         model = apps.get_model ('fundraisers.Fundraiser')
