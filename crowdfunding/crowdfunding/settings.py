@@ -179,3 +179,4 @@ AWS_DEFAULT_ACL = 'public-read'
 # MEDIA (for ImageField during development)
 MEDIA_URL = f"https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+# install "python -m pip install Pillow"
