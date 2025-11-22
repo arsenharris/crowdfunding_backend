@@ -8,3 +8,5 @@ python-dotenv==1.0.1 # environment variable management
 whitenoise==6.7.0 # static file serving
 django-filter==25.1
 pillow==12.0.0
+boto3==1.30.17
+django-storages==1.18.2
