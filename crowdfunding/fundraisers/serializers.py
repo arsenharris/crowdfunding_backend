@@ -1,16 +1,51 @@
 from rest_framework import serializers
 from django.apps import apps
 from django.db.models import Sum
+from django.conf import settings
+import boto3
+
 
 class FundraiserSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source= 'owner.username')
     progress = serializers.SerializerMethodField()    
     likes_count = serializers.SerializerMethodField()
-    image = serializers.ImageField(allow_null=True, required=False)
+    image = serializers.ImageField(use_url=True, allow_null=True, required=False)
+    image_url = serializers.SerializerMethodField()
 
     class Meta:
         model = apps.get_model ('fundraisers.Fundraiser')
         fields = '__all__'
+
+    def get_image_url(self, obj):
+        if not obj.image:
+            return None
+        # If using S3 (private bucket), return a presigned URL
+        bucket = getattr(settings, 'AWS_STORAGE_BUCKET_NAME', None)
+        try:
+            if bucket and getattr(settings, 'AWS_ACCESS_KEY_ID', None):
+                s3 = boto3.client(
+                    "s3",
+                    aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+                    aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+                    region_name=getattr(settings, 'AWS_S3_REGION_NAME', None),
+                )
+                return s3.generate_presigned_url(
+                    "get_object",
+                    Params={"Bucket": bucket, "Key": obj.image.name},
+                    ExpiresIn=3600,
+                )
+        except Exception:
+            # fall through to local URL fallback
+            pass
+
+        # Fallback: return absolute/local URL (requires request in serializer context)
+        try:
+            request = self.context.get('request')
+            return request.build_absolute_uri(obj.image.url) if request else obj.image.url
+        except Exception:
+            return None
+        
+        
     def get_progress(self, obj):
         total_pledged = sum([p.amount for p in obj.pledges.all()])
         if obj.goal:
